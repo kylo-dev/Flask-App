@@ -1,0 +1,6 @@
+.ideat
+__pycache__
+migrations
+venv
+config.py
+food
