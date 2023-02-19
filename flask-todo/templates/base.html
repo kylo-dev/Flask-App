@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=.10">
+    <title>Todo App</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.5.0/dist/semantic.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.5.0/dist/semantic.min.js"></script>
+</head>
+<body>
+    <div style="margin-top:50px;" class="ui container">
+
+        <div class="ui huge positive message">
+          <h1 class="ui center aligned header">Todo App</h1>
+        </div>
+
+        <form class="ui form" action="{{ url_for('main.add') }}" method="post">
+            <div class="field">
+                <label style="font-size:1.2rem;" for="title">Todo Title</label>
+                <input type="text" name="title" id="title" placeholder="Enter Todo...">
+                <br>
+                <button class="ui animated button" type="submit" tabindex="0">
+                    <i class="caret up icon visible content"></i>
+                  <span class="visible content">Add Todo</span>
+                  <span class="hidden content">
+                    <i class="right arrow icon"></i>
+                  </span>
+                </button>
+
+                <div class="ui green basic label">
+                  <i class="mail icon"></i> {{ todo_list|length }}
+                </div>
+
+            </div>
+        </form>
+            {% if todo_list|length == 0 %}
+            <div class="ui card">
+              <div class="image">
+                <img src="./static/img/mini.jpg">
+              </div>
+              <div class="content">
+                <a class="header">Gyeom</a>
+                <div class="meta">
+                  <span class="date">Made in 2023</span>
+                </div>
+                <div class="description">
+                  Gyeom made Todo-app with Flask.<br>I learned sqlalchemy, migrate, post, get skills
+                </div>
+              </div>
+              <div class="extra content">
+                <a>
+                  <i class="mail icon"></i>
+                  {{ todo_list|length }}
+                </a>
+              </div>
+            </div>
+            {% endif %}
+            {% for todo in todo_list %}
+            <div class="ui segment">
+                <p class="ui big header">{{ todo.id }} | {{ todo.title }}</p>
+                {% if todo.complete == False %}
+                <span class="ui gray label">Not Completed</span>
+                {% else %}
+                <span class="ui green label">Completed</span>
+                {% endif %}
+
+                <a class="ui blue animated button" tabindex="0" href="{{ url_for('main.update', todo_id=todo.id) }}">
+                      <div class="visible content">Update</div>
+                      <div class="hidden content">
+                          <i class="sync alternate icon"></i>
+                      </div>
+                </a>
+                <a class="ui yellow animated button" href="{{ url_for('main.delete', todo_id=todo.id) }}">
+                    <div class="visible content">Delete</div>
+                      <div class="hidden content">
+                          <i class="chevron down icon"></i>
+                      </div>
+                </a>
+            </div>
+            {% endfor %}
+    </div>
+</body>
+</html>
